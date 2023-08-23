@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_user_table
+      author: simonishvili.ma
+      changes:
+        - createTable:
+            tableName: USER
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: USERNAME
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: PASSWORD
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: create_todo_item_table
+      author: simonishvili.ma
+      changes:
+        - createTable:
+            tableName: TODO_ITEM
+            columns:
+              - column:
+                  name: ID
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: USER_ID
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: TITLE
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: DESCRIPTION
+                  type: VARCHAR(100)
+        - addForeignKeyConstraint:
+            baseColumnNames: USER_ID
+            baseTableName: TODO_ITEM
+            constraintName: fk_todo_item_user_id_on_user_id
+            referencedColumnNames: ID
+            referencedTableName: USER

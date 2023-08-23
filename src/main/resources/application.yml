@@ -1,10 +1,15 @@
 server:
   port: 8080
 spring:
+  liquibase:
+    change-log: classpath:/liquibase/changelog-root.yml
   datasource:
-    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:mem:testdb;INIT=CREATE SCHEMA IF NOT EXISTS TEST
     driverClassName: org.h2.Driver
     username: sa
     password: password
+  h2:
+    console:
+      enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
