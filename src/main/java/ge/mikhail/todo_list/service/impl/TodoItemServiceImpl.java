@@ -30,9 +30,13 @@ public class TodoItemServiceImpl implements TodoItemService {
         this.todoItemMapper = todoItemMapper;
     }
 
+    @SneakyThrows
     @Override
     public GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId(Long userId) {
         List<TodoItem> todoItems = todoItemRepository.findAllByUserId(userId);
+        if (todoItems.isEmpty()) {
+            throw new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by id");
+        }
         return new GetAllTodoItemsByUserIdResponse(
                 todoItems.stream()
                     .map(todoItemMapper::entityToResponse)

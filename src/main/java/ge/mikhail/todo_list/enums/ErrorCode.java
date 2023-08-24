@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     OK(0),
-    NOT_FOUND(-1);
+    NOT_FOUND(-1),
+    UNKNOWN_EXCEPTION(-100);
 
     private final int code;
 }
