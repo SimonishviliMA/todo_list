@@ -9,5 +9,5 @@ public enum ErrorCode {
     OK(0),
     NOT_FOUND(-1);
 
-    private int code;
+    private final int code;
 }

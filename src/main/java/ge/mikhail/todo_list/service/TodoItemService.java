@@ -6,8 +6,6 @@ import ge.mikhail.todo_list.dto.response.GetAllTodoItemsByUserIdResponse;
 import ge.mikhail.todo_list.dto.response.SaveTodoItemResponse;
 import ge.mikhail.todo_list.dto.response.TodoItemResponse;
 
-import java.util.List;
-
 public interface TodoItemService {
 
     GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId(Long id);
