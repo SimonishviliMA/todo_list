@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface TodoItemRepository extends CrudRepository<TodoItem, Long> {
     List<TodoItem> findAllByUserId(Long userId);
+
+    void deleteAllByUserId(Long userId);
 }

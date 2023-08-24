@@ -4,7 +4,7 @@ spring:
   liquibase:
     change-log: classpath:/liquibase/changelog-root.yml
   datasource:
-    url: jdbc:h2:mem:testdb;INIT=CREATE SCHEMA IF NOT EXISTS TEST
+    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa
     password: password
@@ -13,3 +13,7 @@ spring:
       enabled: true
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+#    properties:
+#      hibernate:
+#        globally_quoted_identifiers: true
+#        globally_quoted_identifiers_skip_column_definitions: true

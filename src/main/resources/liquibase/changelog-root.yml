@@ -4,23 +4,23 @@ databaseChangeLog:
       author: simonishvili.ma
       changes:
         - createTable:
-            tableName: USER
+            tableName: user_table
             columns:
               - column:
-                  name: ID
+                  name: id
                   type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: USERNAME
+                  name: username
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
                     unique: true
               - column:
-                  name: PASSWORD
+                  name: password
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
@@ -29,31 +29,35 @@ databaseChangeLog:
       author: simonishvili.ma
       changes:
         - createTable:
-            tableName: TODO_ITEM
+            tableName: todo_item
             columns:
               - column:
-                  name: ID
+                  name: id
                   type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: USER_ID
+                  name: user_id
                   type: BIGINT
                   constraints:
                     nullable: false
               - column:
-                  name: TITLE
+                  name: title
                   type: VARCHAR(50)
                   constraints:
                     nullable: false
               - column:
-                  name: DESCRIPTION
+                  name: description
                   type: VARCHAR(100)
+              - column:
+                  name: completed
+                  type: BOOLEAN
+                  defaultValueBoolean: false
         - addForeignKeyConstraint:
-            baseColumnNames: USER_ID
-            baseTableName: TODO_ITEM
+            baseColumnNames: user_id
+            baseTableName: todo_item
             constraintName: fk_todo_item_user_id_on_user_id
-            referencedColumnNames: ID
-            referencedTableName: USER
+            referencedColumnNames: id
+            referencedTableName: user_table

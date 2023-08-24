@@ -9,9 +9,10 @@ import java.util.List;
 @Entity
 @Table
 @Data
-public class User {
+public class UserTable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -20,6 +21,10 @@ public class User {
     @Column
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "TODO_ITEM")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "TODO_ITEM",
+            joinColumns = @JoinColumn(name = "userId")
+    )
     private List<TodoItem> todoItems = new ArrayList<>();
 }

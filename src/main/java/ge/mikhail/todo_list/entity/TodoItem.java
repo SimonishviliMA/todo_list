@@ -1,9 +1,6 @@
 package ge.mikhail.todo_list.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -12,6 +9,7 @@ import lombok.Data;
 public class TodoItem {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -22,5 +20,8 @@ public class TodoItem {
 
     @Column
     private String description;
+
+    @Column
+    private boolean completed;
 
 }
