@@ -1,6 +1,5 @@
 package ge.mikhail.todo_list.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ge.mikhail.todo_list.dto.UserDto;
 import ge.mikhail.todo_list.service.AuthenticationService;
 import lombok.SneakyThrows;
