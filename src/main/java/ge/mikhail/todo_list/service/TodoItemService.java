@@ -8,9 +8,9 @@ import ge.mikhail.todo_list.dto.response.TodoItemResponse;
 
 public interface TodoItemService {
 
-    GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId(Long id);
+    GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId();
 
-    BaseResponse deleteAllTodoItemsByUserId(Long userId);
+    BaseResponse deleteAllTodoItemsByUserId();
 
     TodoItemResponse getTodoItemById(Long id);
 

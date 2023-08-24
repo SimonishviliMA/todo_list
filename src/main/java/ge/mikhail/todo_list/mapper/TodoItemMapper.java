@@ -17,9 +17,9 @@ public class TodoItemMapper {
         );
     }
 
-    public TodoItem requestToEntity(TodoItemRequest request) {
+    public TodoItem requestToEntity(TodoItemRequest request, Long userId) {
         TodoItem todoItem = new TodoItem();
-        todoItem.setUserId(request.getUserId());
+        todoItem.setUserId(userId);
         todoItem.setTitle(request.getTitle());
         todoItem.setDescription(request.getDescription());
         return todoItem;

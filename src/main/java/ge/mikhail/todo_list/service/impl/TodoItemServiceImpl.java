@@ -10,6 +10,7 @@ import ge.mikhail.todo_list.enums.ErrorCode;
 import ge.mikhail.todo_list.exception.GeneralException;
 import ge.mikhail.todo_list.mapper.TodoItemMapper;
 import ge.mikhail.todo_list.repository.TodoItemRepository;
+import ge.mikhail.todo_list.service.AuthenticationService;
 import ge.mikhail.todo_list.service.TodoItemService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +25,19 @@ public class TodoItemServiceImpl implements TodoItemService {
     private final TodoItemRepository todoItemRepository;
     private final TodoItemMapper todoItemMapper;
 
+    private final AuthenticationService authenticationService;
+
     @Autowired
-    public TodoItemServiceImpl(TodoItemRepository todoItemRepository, TodoItemMapper todoItemMapper) {
+    public TodoItemServiceImpl(TodoItemRepository todoItemRepository, TodoItemMapper todoItemMapper, AuthenticationService authenticationService) {
         this.todoItemRepository = todoItemRepository;
         this.todoItemMapper = todoItemMapper;
+        this.authenticationService = authenticationService;
     }
 
     @SneakyThrows
     @Override
-    public GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId(Long userId) {
+    public GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId() {
+        Long userId = authenticationService.getUserInfo().getId();
         List<TodoItem> todoItems = todoItemRepository.findAllByUserId(userId);
         if (todoItems.isEmpty()) {
             throw new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by id");
@@ -45,7 +50,8 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
-    public BaseResponse deleteAllTodoItemsByUserId(Long userId) {
+    public BaseResponse deleteAllTodoItemsByUserId() {
+        Long userId = authenticationService.getUserInfo().getId();
         todoItemRepository.deleteAllByUserId(userId);
         return new BaseResponse();
     }
@@ -61,7 +67,8 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     @Override
     public SaveTodoItemResponse saveTodoItem(TodoItemRequest request) {
-        TodoItem todoItem = todoItemRepository.save(todoItemMapper.requestToEntity(request));
+        Long userId = authenticationService.getUserInfo().getId();
+        TodoItem todoItem = todoItemRepository.save(todoItemMapper.requestToEntity(request, userId));
         return new SaveTodoItemResponse(todoItem.getId());
     }
 

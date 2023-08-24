@@ -43,12 +43,12 @@ public class TodoItemController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<GetAllTodoItemsByUserIdResponse> getAllTodoItemsByUserId(@RequestParam("userId") Long userId) {
-        return ResponseEntity.ok(todoItemService.getAllTodoItemsByUserId(userId));
+    public ResponseEntity<GetAllTodoItemsByUserIdResponse> getAllTodoItemsByUserId() {
+        return ResponseEntity.ok(todoItemService.getAllTodoItemsByUserId());
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity<BaseResponse> deleteAllTodoItemsByUserId(@RequestParam("userId") Long userId) {
-        return ResponseEntity.ok(todoItemService.deleteAllTodoItemsByUserId(userId));
+    public ResponseEntity<BaseResponse> deleteAllTodoItemsByUserId() {
+        return ResponseEntity.ok(todoItemService.deleteAllTodoItemsByUserId());
     }
 }
