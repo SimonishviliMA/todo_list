@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,24 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
+    @SneakyThrows
+    @Override
+    @Transactional
+    public GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId() {
+        Long userId = authenticationService.getUserInfo().getId();
+        log.info("Get Todo Items by user id = {}", userId);
+        List<TodoItem> todoItems = todoItemRepository.findAllByUserId(userId);
+        if (todoItems.isEmpty()) {
+            throw new GeneralException(ErrorCode.NOT_FOUND, "TodoItems didn't find by userid = " + userId);
+        }
+        log.info("Got Todo Item by user id = {}", userId);
+        return new GetAllTodoItemsByUserIdResponse(
+                todoItems.stream()
+                        .map(todoItemMapper::entityToResponse)
+                        .collect(Collectors.toList())
+        );
+    }
+
     @Autowired
     public TodoItemServiceImpl(TodoItemRepository todoItemRepository, TodoItemMapper todoItemMapper, AuthenticationService authenticationService) {
         this.todoItemRepository = todoItemRepository;
@@ -37,24 +56,8 @@ public class TodoItemServiceImpl implements TodoItemService {
         this.authenticationService = authenticationService;
     }
 
-    @SneakyThrows
     @Override
-    public GetAllTodoItemsByUserIdResponse getAllTodoItemsByUserId() {
-        Long userId = authenticationService.getUserInfo().getId();
-        log.info("Get Todo Items by user id = {}", userId);
-        List<TodoItem> todoItems = todoItemRepository.findAllByUserId(userId);
-        if (todoItems.isEmpty()) {
-            throw new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by userid = " + userId);
-        }
-        log.info("Got Todo Item by user id = {}", userId);
-        return new GetAllTodoItemsByUserIdResponse(
-                todoItems.stream()
-                    .map(todoItemMapper::entityToResponse)
-                    .collect(Collectors.toList())
-        );
-    }
-
-    @Override
+    @Transactional
     public BaseResponse deleteAllTodoItemsByUserId() {
         Long userId = authenticationService.getUserInfo().getId();
         log.info("Delete Todo Items by user id = {}", userId);
@@ -65,6 +68,7 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     @SneakyThrows
     @Override
+    @Transactional
     public TodoItemResponse getTodoItemById(Long id) {
         log.info("Get Todo Item by id = {}", id);
         TodoItemResponse response = todoItemMapper.entityToResponse(
@@ -76,6 +80,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public SaveTodoItemResponse saveTodoItem(TodoItemRequest request) {
         Long userId = authenticationService.getUserInfo().getId();
         log.info("Save Todo Item: request = {}, userId = {}", request.toString(), userId);
@@ -85,6 +90,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     }
 
     @Override
+    @Transactional
     public BaseResponse deleteTodoItemById(Long id) {
         log.info("Delete Todo Item by id = {}", id);
         todoItemRepository.deleteById(id);
@@ -94,6 +100,7 @@ public class TodoItemServiceImpl implements TodoItemService {
 
     @SneakyThrows
     @Override
+    @Transactional
     public BaseResponse completedTodoItem(Long id) {
         log.info("Mark as completed Todo Item by id = {}", id);
         TodoItem todoItem = todoItemRepository.findById(id)

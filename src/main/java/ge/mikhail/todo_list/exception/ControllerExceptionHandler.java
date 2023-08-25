@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(Throwable.class)
-    public ResponseEntity<BaseResponse> handleThrowableException(Throwable ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new BaseResponse(ErrorCode.UNKNOWN_EXCEPTION, ex.getMessage()));
-    }
-
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<BaseResponse> handleGeneralException(GeneralException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new BaseResponse(ex.getErrorCode(), ex.getDetail()));
+    }
+
+    @ExceptionHandler(Throwable.class)
+    public ResponseEntity<BaseResponse> handleThrowableException(Throwable ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new BaseResponse(ErrorCode.UNKNOWN_EXCEPTION, ex.getMessage()));
     }
 
 }

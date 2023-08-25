@@ -13,7 +13,8 @@ public class TodoItemMapper {
                 entity.getId(),
                 entity.getUserId(),
                 entity.getTitle(),
-                entity.getDescription()
+                entity.getDescription(),
+                entity.isCompleted()
         );
     }
 
