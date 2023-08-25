@@ -44,7 +44,7 @@ public class TodoItemServiceImpl implements TodoItemService {
         log.info("Get Todo Items by user id = {}", userId);
         List<TodoItem> todoItems = todoItemRepository.findAllByUserId(userId);
         if (todoItems.isEmpty()) {
-            throw new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by id");
+            throw new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by userid = " + userId);
         }
         log.info("Got Todo Item by user id = {}", userId);
         return new GetAllTodoItemsByUserIdResponse(
@@ -69,7 +69,7 @@ public class TodoItemServiceImpl implements TodoItemService {
         log.info("Get Todo Item by id = {}", id);
         TodoItemResponse response = todoItemMapper.entityToResponse(
                 todoItemRepository.findById(id)
-                        .orElseThrow(() -> new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by id"))
+                        .orElseThrow(() -> new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by id = " + id))
         );
         log.info("Got Todo Item by id = {}", id);
         return response;
@@ -97,7 +97,7 @@ public class TodoItemServiceImpl implements TodoItemService {
     public BaseResponse completedTodoItem(Long id) {
         log.info("Mark as completed Todo Item by id = {}", id);
         TodoItem todoItem = todoItemRepository.findById(id)
-                .orElseThrow(() -> new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by id"));
+                .orElseThrow(() -> new GeneralException(ErrorCode.NOT_FOUND, "TodoItem didn't find by id = " + id));
         todoItem.setCompleted(true);
         todoItemRepository.save(todoItem);
         log.info("Marked as completed Todo Item by id = {}", id);
